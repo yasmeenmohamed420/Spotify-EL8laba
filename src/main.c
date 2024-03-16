@@ -23,6 +23,7 @@
 
 
 extern uint8 flag;
+uint8 Buttom=1;
 
 void main()
 {
@@ -33,6 +34,7 @@ void main()
 	MRCC_VOIDenable(RCC_APB2 , APB2_SPI1);
 	MRCC_VOIDenable(RCC_APB1 , APB1_TIM2);
 	MRCC_VOIDenable(RCC_APB1 , APB1_TIM3);
+	MRCC_VOIDenable(RCC_APB1 , APB1_TIM5);
 
 	/*IR*/
 	MGPIO_voidSet_Mode(PortA,GPIO_PIN_0 , INPUT_MODE);
@@ -83,62 +85,57 @@ void main()
 	MGPIO_voidSetPinMode(PortA, GPIO_PIN_12, Output_push_pull , LOW_SPEED);
 
 	MSYSYTICK_voidCtrlIntState(SYSTICKEnable);
+	MNVIC_VoidEnableInterrupt(29);
+	MNVIC_VoidEnableInterrupt(30);
+
+	TIM3_voidSetIntervalPeriodic(30000,SHOW_AMR);
+	TIM5_voidSetIntervalPeriodic(30000,Show_Tamer);
+
 
 	while(1)
 	{
 		switch(flag)
 		{
 
-
-		case 1:  //tamer
+		case 1:
 			TFT_Init();
-			for(uint8 i=0;i<20;i++)
+			for(uint8 i=0 ;i<8 ;i++)
 			{
 				NUM_One();
-				TFT_Display(tasmer);
-			}
-			Show_Tamer();
-			DAC_voidInit();
-			DAC_voidSetData(tamer_raw, 43376);
-			break ;
-
-		case 2:  //amr diab
-			TFT_Init();
-			for(uint8 i=0;i<10;i++)
-			{
-				NUM_TWO();
-				TFT_Display(amr_imag);
-			}
-			SHOW_AMR();
-			DAC_voidInit();
-			DAC_voidSetData(Amaran_raw, 39753);
-			break ;
-
-		case 3:
-			TFT_Init();
-			for(uint8 i=0;i<10;i++)
-			{
-				NUM_Three();
 				TFT_Display(masarh_imag);
 			}
 			break ;
 
-		case 4:
+		case 2:
 			TFT_Init();
-			for(int i=0;i<10;i++)
+			for(uint8 i=0 ;i<8 ;i++)
 			{
-				NUM_Four();
+				NUM_TWO();
 				TFT_Display(hamaiy_imag);
 			}
-
 			break ;
 
+		case 3:  //tamer
+
+			TFT_Init();
+			TFT_Display(tasmer);
+			DAC_voidInit();
+			DAC_voidSetData(tamer_raw, 43376);
+			break ;
+
+		case 4:  //amr diab
+			TFT_Init();
+			TFT_Display(amr_imag);
+			DAC_voidInit();
+			DAC_voidSetData(Amaran_raw, 39753);
+			break ;
+//
 //		case 5:
 //			NUM_Five();
 //			TFT_Init();
 //			TFT_Display(cairokee_imag);
 //			break ;
-//
+
 //
 //		case 6:
 //			NUM_Six();
